@@ -174,3 +174,4 @@ const submitForm = async () => {
     loading.value = false
   }
 }
+</script>
