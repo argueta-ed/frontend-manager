@@ -2,7 +2,13 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Setup
+# ⚙️ Project installation
+Follow these steps to prepare the development environment:
+
+## Clone the repository
+```bash
+git clone https://github.com/tu-usuario/tu-repositorio.git
+```
 
 Make sure to install dependencies using npm:
 
