@@ -1,5 +1,5 @@
 <template>
-  <!-- Table component to display user data with pagination and actions for admin users -->`
+  <!-- Table component to display user data with pagination and actions for admin users -->
   <div v-if="users.data && users.data.length > 0" class="overflow-x-auto bg-white rounded-lg shadow">
     <table class="w-full table-auto">
       <thead>

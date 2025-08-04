@@ -44,9 +44,12 @@ const isAdmin = auth.userRole == 'administrador' ? true : false
 * @param {number} page - Page to load (default 1)
 */
 const loadUsers = async (page = 1) => {
-  try {    
-    const { data } = await useSanctumFetch(`/api/users?page=${page}`)    
+  try {        
+    const timestamp = Date.now();
+    const { data } = await useSanctumFetch(`/api/users?page=${page}&timestamp=${timestamp}`, ) 
+    
     users.value = data.value || []
+    
   } catch (err) {
     console.error('Error al cargar usuarios', err)
   }
@@ -78,8 +81,7 @@ const deleteUser = async (id: number) => {
   if (!confirmed) return
   try {
     await useSanctumFetch(`/api/users/${id}`, { method: 'DELETE' })
-    window.location.reload()
-    // await loadUsers()
+    await loadUsers()
   } catch (err) {
     console.error('Error al eliminar usuario', err)
   }
