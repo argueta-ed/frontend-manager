@@ -23,7 +23,7 @@
         <DashboardForm
           :user="user"
           :updating="updating"
-          @saved="$emit('saved')"
+          @saved="savedUser"
         />
       </div>
     </div>
@@ -43,5 +43,9 @@ defineProps(['user', 'updating'])
 * - 'close': Emitted when the user closes the modal
 * - 'saved': Emitted when the form indicates that the data was saved successfully
 */
-defineEmits(['close', 'saved'])
+const emit =  defineEmits(['close', 'saved'])
+
+function savedUser(page = 1){  
+  emit('saved', page)
+}
 </script>

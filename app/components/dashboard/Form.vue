@@ -128,6 +128,8 @@ const errors = ref<Record<string, string[]>>({});
 
 const loading = ref(false)
 
+const emit = defineEmits(['saved'])
+
 /**
 * Function that handles form submission
 * Makes HTTP requests to create or update users via API
@@ -166,7 +168,7 @@ const submitForm = async () => {
       }
       return
     } else {
-      window.location.reload();
+      emit('saved', props.user?.page ?? 1)
     }
   } catch (err) {
     console.error('Excepción al guardar usuario:', err);

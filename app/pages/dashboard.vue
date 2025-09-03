@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 // middleware to only allow access to the page to logged-in users
 definePageMeta({
@@ -44,10 +44,8 @@ const isAdmin = auth.userRole == 'administrador' ? true : false
 * @param {number} page - Page to load (default 1)
 */
 const loadUsers = async (page = 1) => {
-  try {        
-    const timestamp = Date.now();
-    const { data } = await useSanctumFetch(`/api/users?page=${page}&timestamp=${timestamp}`, ) 
-    
+  try {
+    const { data } = await useSanctumFetch(`/api/users?page=${page}`, )
     users.value = data.value || []
     
   } catch (err) {
@@ -65,8 +63,8 @@ const createUser = () => {
 * Opens the modal to edit an existing user
 * @param {any} user - User to edit
 */
-const editUser = (user) => {
-  selectedUser.value = user
+const editUser = (user, page: number) => {
+  selectedUser.value = {...user, page} 
   showModal.value = true
 }
 
@@ -76,12 +74,13 @@ await loadUsers()
 * Delete a user after confirming with the user
 * @param {number} id - ID of the user to delete
 */
-const deleteUser = async (id: number) => {
+const deleteUser = async (page: number, id: number) => {
   const confirmed = window.confirm('¿Seguro que deseas eliminar este registro?')
   if (!confirmed) return
   try {
-    await useSanctumFetch(`/api/users/${id}`, { method: 'DELETE' })
-    await loadUsers()
+    await useSanctumFetch(`/api/users/${id}`, { method: 'DELETE' })    
+    clearNuxtData()
+    await loadUsers(page)
   } catch (err) {
     console.error('Error al eliminar usuario', err)
   }
@@ -92,8 +91,9 @@ const deleteUser = async (id: number) => {
 * - Closes the modal
 * - Reloads the user list
 */
-const handleSaved = async () => {
-  showModal.value = false
-  await loadUsers()
+const handleSaved = async (page:number) => {
+  showModal.value = false  
+  clearNuxtData()
+  await loadUsers(page)
 }
 </script>
